@@ -47,9 +47,9 @@ class RegistrationController {
 
     const parsedDate = parseISO(start_date);
     const endDateCalc = addMonths(parsedDate, plan.duration);
-    const priceCalc = Number(Plan.duration * Plan.price).toFixed(2);
+    const priceCalc = Number(plan.duration * plan.price).toFixed(2);
 
-    const { id } = await Registration.create({
+    const { id, end_date, price } = await Registration.create({
       student_id,
       plan_id,
       start_date,
@@ -62,8 +62,8 @@ class RegistrationController {
       student_id,
       plan_id,
       start_date,
-      endDateCalc,
-      priceCalc,
+      end_date,
+      price,
     });
   }
 
@@ -83,11 +83,11 @@ class RegistrationController {
 
     const parsedDate = parseISO(start_date);
     const endDateCalc = addMonths(parsedDate, plan.duration);
-    const priceCalc = Number(Plan.duration * Plan.price).toFixed(2);
+    const priceCalc = Number(plan.duration * plan.price).toFixed(2);
 
     const registration = await Registration.findByPk(req.params.id);
 
-    const { id } = await registration.update({
+    const { id, end_date, price } = await registration.update({
       student_id,
       plan_id,
       start_date,
@@ -100,8 +100,8 @@ class RegistrationController {
       student_id,
       plan_id,
       start_date,
-      endDateCalc,
-      priceCalc,
+      end_date,
+      price,
     });
   }
 
