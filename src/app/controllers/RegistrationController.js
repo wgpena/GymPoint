@@ -5,6 +5,9 @@ import Student from '../models/Student';
 import Plan from '../models/Plan';
 import Registration from '../models/Registration';
 
+import RegistrationMail from '../jobs/RegistrationMail';
+import Queue from '../../lib/Queue';
+
 class RegistrationController {
   async index(req, res) {
     const { page = 1 } = req.query;
@@ -55,6 +58,25 @@ class RegistrationController {
       start_date,
       end_date: endDateCalc,
       price: priceCalc,
+    });
+
+    const registration = await Registration.findByPk(id, {
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['title'],
+        },
+      ],
+    });
+
+    await Queue.add(RegistrationMail.key, {
+      registration,
     });
 
     return res.json({

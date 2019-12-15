@@ -7,7 +7,7 @@ class Registration extends Model {
       {
         start_date: Sequelize.DATE,
         end_date: Sequelize.DATE,
-        price: Sequelize.NUMBER,
+        price: Sequelize.FLOAT,
         expired: {
           type: Sequelize.VIRTUAL,
           get() {
